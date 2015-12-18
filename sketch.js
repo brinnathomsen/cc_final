@@ -1,5 +1,6 @@
 //How do I make the main character not animate but jump from position to position and be able to stay still?
 
+var currentscene;
 // SUBWAY: rat y position
 var yRat1 = 1000;
 var yRat2 = 1000;
@@ -119,12 +120,23 @@ var pigeonr;
 var reunitedGirl;
 var reunitedHome;
 var reunitedMom;
+var ygirlreunited;
 
 var millisecond = millis();
 
 var introSubway;
 var introSubway2;
-
+var subwayDoor;
+var doorPosition1;
+var doorPosition2;
+var introCharacters;
+var xintroPosition;
+var yintroPosition;
+var teddybearintro;
+var teddybearreach;
+var bearsit;
+var teddybearstand;
+var yintrobear;
 
 function preload() {
 	bearback = loadImage("assets/bearback.png");
@@ -154,22 +166,27 @@ function preload() {
 	tree4 = loadImage("assets/tree4-01.png");
 	forest = loadImage("assets/background_park-01.png");
 	reunitedHome = loadImage("assets/background_reunion-01.png");
-
-
-
+	subwayDoor = loadImage("assets/subwaydoor-01.png");
+	introCharacters = loadImage("assets/introgirlmom-01.png")
+	teddybearintro = loadImage("assets/teddybear1.png");
+	teddybearreach = loadImage("assets/teddybear2.png");
+	teddybearstand = loadImage("assets/teddybear3.png");
 	reunitedGirl = loadImage("assets/girl_reunited.png");
 	reunitedMom = loadImage("assets/mother_happy-01.png");
 
 	gameOver = loadImage("assets/gameover-01.png");
 
+
 }
 
+
 function setup() {
+
 	// create a place to draw
 	createCanvas(2000, windowHeight);
 
-
-
+	yintrobear = windowWidth / 3.6;
+	bearsit = teddybearintro;
 	//SUBWAY: setup
 	xRat1 = random(windowWidth * .4, windowWidth * .6);
 	xRat2 = random(windowWidth * .4, windowWidth * .6);
@@ -227,11 +244,24 @@ function setup() {
 	treeSize5 = 50;
 	treeSize6 = 50;
 	parkBackgroundSize = windowWidth;
+
+	doorPosition1 = windowWidth / 6.3;
+
+	doorPosition2 = windowWidth / 3.5;
+
+	xintroPosition = windowWidth / 5;
+	yintroPosition = windowWidth / 7
+	currentscene = 1;
+
+	ygirlreunited = windowWidth / 2.4;
 }
 
 function draw() {
-	intro();
 	//sceneSubway();
+	intro();
+	//conclusion();
+
+
 	//sceneSewer();
 	//	scenePigeon();
 	//sceneDogs();
@@ -239,19 +269,108 @@ function draw() {
 	//conclusion();
 	// pervent anything from going out of frame
 	noStroke();
-	fill(87, 85, 163);
+	fill(211, 31, 63);
 	rect(0, windowWidth * .625, 2000, windowHeight);
 }
 
 
 
 function intro() {
-	background(255);
-	image(introSubway2, windowWidth / 5, windowWidth / 10, windowWidth / 1.2,
-		windowWidth / 2.5);
-	image(introSubway,
-		0, 0, windowWidth, windowWidth * .64);
+	var time = millis(0);
 
+
+
+	if (time > 0) {
+
+		image(introSubway2, windowWidth / 5, windowWidth / 10, windowWidth / 1.2,
+			windowWidth / 2.5);
+		image(bearsit, windowWidth / 2.4, yintrobear, windowWidth / 13,
+			windowWidth / 11);
+		image(introCharacters, xintroPosition, yintroPosition, windowWidth / 3,
+			windowWidth / 3);
+		image(subwayDoor, doorPosition1, windowWidth / 8, windowWidth / 3,
+			windowWidth / 2.5);
+		image(subwayDoor, doorPosition2, windowWidth / 8, windowWidth / 3,
+			windowWidth / 2.5);
+		image(introSubway, 0, 0, windowWidth, windowWidth * .64);
+
+	}
+
+
+	if (time > 2000) {
+		doorPosition1 = windowWidth / 20;
+		doorPosition2 = windowWidth / 2.5;
+	}
+
+	if (time > 3000) {
+
+		yintroPosition = windowWidth / 5;
+		image(introCharacters, xintroPosition, yintroPosition, windowWidth / 3,
+			windowWidth / 3);
+	}
+	if (time > 3300) {
+
+		xintroPosition = windowWidth / 10;
+	}
+
+	if (time > 3500) {
+
+		xintroPosition = windowWidth / 30;
+	}
+	if (time > 3700) {
+
+		xintroPosition = -100;
+	}
+
+	if (time > 4000) {
+
+		xintroPosition = -300;
+	}
+	if (time > 4500) {
+		bearsit = teddybearreach;
+
+	}
+
+	if (time > 5000) {
+		bearsit = teddybearstand;
+		yintrobear = windowWidth / 2.8;
+
+
+	}
+	if (time > 5500) {
+		doorPosition1 = windowWidth / 6.3;
+		doorPosition2 = windowWidth / 3.5;
+		yintrobear = windowWidth / 2.5;
+		image(bearsit, windowWidth / 2.4, yintrobear, windowWidth / 13,
+			windowWidth / 11);
+
+	}
+	if (time > 6000) {
+		sceneSubway();
+	}
+
+	if (time > 36000) {
+		sceneSewer();
+	}
+
+	if (time > 66000) {
+		sceneDogs();
+	}
+	if (time > 96000) {
+		scenePigeon();
+	}
+
+	if (time > 120000) {
+		image(reunitedHome, 0, 0, windowWidth, windowWidth * .64);
+
+		imageMode(CENTER);
+		image(reunitedGirl, windowWidth / 2, ygirlreunited, windowWidth / 10,
+			windowWidth / 4.5);
+
+		image(reunitedMom, windowWidth / 6, windowWidth / 2.8, windowWidth / 2.5,
+			windowWidth / 2.5);
+
+	}
 
 
 }
@@ -493,19 +612,19 @@ function sceneSewer() {
 	if (xtrash1 > windowWidth / 2) {
 		xtrash1 = xtrash1 * .999;
 	} else if (xtrash1 < windowWidth / 2) {
-		xtrash1 = xtrash1 * 1.001;
+		xtrash1 = xtrash1 * 1.002;
 	}
 
 	if (xtrash2 > windowWidth / 2) {
 		xtrash2 = xtrash2 * .999;
 	} else if (xtrash2 < windowWidth / 2) {
-		xtrash2 = xtrash2 * 1.001;
+		xtrash2 = xtrash2 * 1.002;
 	}
 
 	if (xtrash3 > windowWidth / 2) {
 		xtrash3 = xtrash3 * .999;
 	} else if (xtrash3 < windowWidth / 2) {
-		xtrash3 = xtrash3 * 1.001;
+		xtrash3 = xtrash3 * 1.002;
 	}
 
 
@@ -801,6 +920,12 @@ function keyPressed() {
 		} else {
 			move = 0
 		}
+	}
+
+	function mouseClicked() {
+		(fill);
+		ellipse(mouseX, mouseY, 500, 500);
+
 	}
 
 
